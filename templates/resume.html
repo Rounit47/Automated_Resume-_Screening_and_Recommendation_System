@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Resume Screening</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            margin-top: 40px;
+            margin-bottom: 100px;
+        }
+        .main-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .card-header {
+            background-color: #3498db;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            padding: 20px;
+            border-bottom: none;
+        }
+        .card-body {
+            padding: 30px;
+        }
+        .system-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .feature-list {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+        .feature-list li:before {
+            content: "•";
+            color: #3498db;
+            font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+        .upload-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+        }
+        .file-upload-info {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            display: block;
+            margin: 25px auto 0;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .results-container {
+            margin-top: 30px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .results-title {
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        footer {
+            background-color: #f8f9fa;
+            color: #7f8c8d;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-tagline {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .copyright {
+            font-size: 13px;
+        }
+        hr {
+            border-top: 1px solid #3498db;
+            margin: 20px 0;
+        }
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="system-title">Automated Resume Screening & Recommendation System</h1>
+        
+        <div class="main-card">
+            <div class="card-header">
+                Information Extraction and Recommendation System
+            </div>
+            <div class="card-body">
+                <div class="info-box">
+                    This system supports only TXT and PDF files for the following functionalities:
+                </div>
+                
+                <ul class="feature-list">
+                    <li><strong>Resume Categorization</strong> - Automatically classify resumes into relevant categories</li>
+                    <li><strong>Resume Job Recommendation</strong> - Suggest suitable job positions based on skills</li>
+                    <li><strong>Resume Parsing</strong> - Extract key information from resumes (Information Extraction)</li>
+                </ul>
+                
+                <hr>
+                
+                <div class="upload-section">
+                    <h3>Upload Your Resume</h3>
+                    <form action="/pred" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="file" class="form-control-file" name="resume" accept=".pdf, .txt" required>
+                            <small class="form-text file-upload-info">Please upload your resume in PDF or TXT format</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+                {% if message %}
+                    <div class="results-container">
+                        <div class="alert alert-info">{{ message }}</div>
+                    </div>
+                {% endif %}
+
+                {% if predicted_category %}
+                    <div class="results-container">
+                        <h4 class="results-title">Analysis Results</h4>
+                        
+                        <div class="result-item">
+                            <strong>Category:</strong> {{ predicted_category }}
+                        </div>
+                        
+                        <div class="result-item">
+                            <strong>Recommended Job:</strong> {{ recommended_job }}
+                        </div>
+                        
+                        <hr>
+                        
+                        <h4 class="results-title">Extracted Information</h4>
+                        
+                        <div class="result-item">
+                            <strong>Name:</strong> {{ name }}
+                        </div>
+                        
+                        <div class="result-item">
+                            <strong>Phone No:</strong> {{ phone }}
+                        </div>
+                        
+                        <div class="result-item">
+                            <strong>Email:</strong> {{ email }}
+                        </div>
+                        
+                        {% if extracted_skills %}
+                            <div class="result-item">
+                                <strong>Skills:</strong>
+                                <ul>
+                                    {% for skill in extracted_skills %}
+                                    <li>{{ skill }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
+                        {% if extracted_education %}
+                            <div class="result-item">
+                                <strong>Education:</strong>
+                                <ul>
+                                    {% for edu in extracted_education %}
+                                    <li>{{ edu }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tagline">Combining Conventional NLP and Generative AI for Smarter Hiring</div>
+            <div class="copyright">2025 Team Web Geek. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

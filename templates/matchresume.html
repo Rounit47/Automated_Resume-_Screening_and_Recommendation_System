@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Resume Screening</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            margin-top: 40px;
+            margin-bottom: 80px;
+        }
+        .main-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .card-header {
+            background-color: #3498db;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            padding: 20px;
+            border-bottom: none;
+        }
+        .card-body {
+            padding: 30px;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #dfe6e9;
+            transition: all 0.3s;
+        }
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+        textarea.form-control {
+            min-height: 150px;
+        }
+        .file-upload-info {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            display: block;
+            margin: 25px auto 0;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        .results-container {
+            margin-top: 30px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .results-title {
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        footer {
+            background-color: #f8f9fa;
+            color: #7f8c8d;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-tagline {
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .copyright {
+            font-size: 13px;
+        }
+        .system-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="system-title">Automated Resume Screening & Recommendation System</h1>
+        
+        <div class="card main-card">
+            <div class="card-header">
+                Intelligent Resume Matcher
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/matcher" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="job_description">Job Description:</label>
+                        <textarea class="form-control" id="job_description" name="job_description" rows="5" required placeholder="Paste the job description here..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="resumes">Upload Resumes:</label>
+                        <input type="file" class="form-control-file" id="resumes" name="resumes" multiple required accept=".pdf, .docx, .txt">
+                        <small class="form-text file-upload-info">Please upload at least 5 resumes for optimal matching results</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Match Resumes</button>
+                </form>
+
+                {% if message %}
+                    <div class="results-container">
+                        <h5 class="results-title">Matching Results:</h5>
+                        <div class="message">{{ message }}</div>
+                        <div class="results-list mt-3">
+                            {% for index in range(top_resumes|length) %}
+                                <div class="result-item">
+                                    {{ top_resumes[index] }} <span class="float-right badge badge-primary">Score: {{ similarity_scores[index] }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tagline">Combining Conventional NLP and Generative AI for Smarter Hiring</div>
+            <div class="copyright">2025 Team Web Geek. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
