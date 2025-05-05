@@ -1,6 +1,14 @@
 # Automated Resume Screening And Recommendation System
 An AI-powered system that automates resume screening and job recommendations using a hybrid approach combining traditional NLP techniques (TF-IDF, Cosine Similarity) and Generative AI. Designed to streamline the recruitment process by intelligently matching resumes to job descriptions and recommending suitable positions based on candidate profiles.
 
+## 📘 About the Project
+
+This project is developed as part of our **final-year major project** for the **B.Tech in Computer Science Engineering – Data Science** program at **Medicaps University**.
+
+👨‍💻 Developed by: **Team Web Geek**
+
+Our aim is to build an intelligent platform that enhances recruitment efficiency by using a combination of Machine Learning, NLP, and Generative AI for smarter resume screening and job recommendations.
+
 ## 🔑 Key Features
 
 ### 📄 Resume Matcher System
@@ -116,6 +124,6 @@ MIT Licensed - See LICENSE for details.
 
  GitHub: @Rounit47
 
-# 
+
 
  
