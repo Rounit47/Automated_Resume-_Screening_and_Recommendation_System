@@ -1,2 +1,2 @@
-# Automated_Resume-_Screening_and_Recommendation_System
+# Automated Resume Screening And Recommendation System
 An AI-powered system that automates resume screening and job recommendations using a hybrid approach combining traditional NLP techniques (TF-IDF, Cosine Similarity) and Generative AI. Designed to streamline the recruitment process by intelligently matching resumes to job descriptions and recommending suitable positions based on candidate profiles.
